@@ -1,0 +1,146 @@
+allprojects {
+    repositories {
+        jcenter()
+
+        maven { url "http://dl.bintray.com/jetbrains/spek" }
+    }
+}
+
+ext {
+    // Android
+    androidBuildToolsVersion = "25.0.3"
+    androidMinSdkVersion = 17
+    androidTargetSdkVersion = 23
+    androidCompileSdkVersion = 24
+
+    // Android Support Libraries
+    supportLibraryVersion = '25.3.1'
+
+    // Libraries
+    kotlinVersion = '1.1.2'
+    daggerVersion = '2.10'
+    rxJavaVersion = '2.1.0'
+    rxAndroidVersion = '2.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    retrofitVersion = '2.2.0'
+    okHttp3Version = '3.7.0'
+    paperDbVersion = '2.0'
+    objenesisVersion = '2.4'
+    glideVersion = '3.8.0'
+    timberVersion = '4.5.1'
+    epoxyVersion = '1.7.5'
+
+    // UI Libraries
+    fontsVersion = '2.2.0'
+
+    // Testing
+    robolectricVersion = '3.3.2'
+    jUnitVersion = '4.12'
+    assertJVersion = '3.6.1'
+    mockitoVersion = '1.0.1'
+    dexmakerVersion = '1.4'
+    espressoVersion = '2.2.2'
+    testingSupportLibVersion = '0.1'
+    spekVersion = '1.1.0'
+    spekJunitRunnerVersion = '1.0.0-M4'
+
+    // Development
+    leakCanaryVersion = '1.5.1'
+
+    classPathDependencies = [
+            kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+    ]
+
+
+    presentationDependencies = [
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger         : "com.google.dagger:dagger:${daggerVersion}",
+
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid      : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+
+            v4             : "com.android.support:support-v4:${supportLibraryVersion}",
+            appcompat      : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            design         : "com.android.support:design:${supportLibraryVersion}",
+            recyclerView   : "com.android.support:recyclerview-v7:${supportLibraryVersion}",
+
+            fonts          : "uk.co.chrisjenx:calligraphy:${fontsVersion}",
+            glide          : "com.github.bumptech.glide:glide:${glideVersion}",
+            timber         : "com.jakewharton.timber:timber:${timberVersion}",
+
+            epoxy           : "com.airbnb.android:epoxy:${epoxyVersion}",
+            epoxyAnnotation : "com.airbnb.android:epoxy-processor:${epoxyVersion}"
+    ]
+    presentationTestDependencies = [
+            kotlin           : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            junit            : "junit:junit:${jUnitVersion}",
+            kotlinJunit      : "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
+            mockito          : "com.nhaarman:mockito-kotlin:${mockitoVersion}",
+            assertj          : "org.assertj:assertj-core:${assertJVersion}",
+            dexmaker         : "com.crittercism.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerDx       : "com.crittercism.dexmaker:dexmaker-dx:${dexmakerVersion}",
+            dexmakerMockito  : "com.crittercism.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso         : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib: "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+            spek             : "org.jetbrains.spek:spek-api:${spekVersion}",
+            spekJunitEngine  : "org.jetbrains.spek:spek-junit-platform-engine:${spekVersion}",
+            spekJunitRunner  : "org.junit.platform:junit-platform-runner:${spekJunitRunnerVersion}"
+    ]
+
+    domainDependencies = [
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+    ]
+
+    domainTestDependencies = [
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            junit          : "junit:junit:${jUnitVersion}",
+            kotlinJunit    : "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
+            mockito        : "com.nhaarman:mockito-kotlin:${mockitoVersion}",
+            spek           : "org.jetbrains.spek:spek-api:${spekVersion}",
+            spekJunitEngine: "org.jetbrains.spek:spek-junit-platform-engine:${spekVersion}",
+            spekJunitRunner: "org.junit.platform:junit-platform-runner:${spekJunitRunnerVersion}"
+    ]
+
+    dataDependencies = [
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid         : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${supportLibraryVersion}",
+            retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retroGsonConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retroRxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            okhttp3           : "com.squareup.okhttp3:okhttp:${okHttp3Version}",
+            okhttp3Logging    : "com.squareup.okhttp3:logging-interceptor:${okHttp3Version}",
+            paperDb           : "io.paperdb:paperdb:${paperDbVersion}",
+            objenesis         : "org.objenesis:objenesis:${objenesisVersion}",
+            timber            : "com.jakewharton.timber:timber:${timberVersion}"
+    ]
+
+    dataTestDependencies = [
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            junit          : "junit:junit:${jUnitVersion}",
+            kotlinJunit    : "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
+            assertj        : "org.assertj:assertj-core:${assertJVersion}",
+            mockito        : "com.nhaarman:mockito-kotlin:${mockitoVersion}",
+            robolectric    : "org.robolectric:robolectric:${robolectricVersion}",
+            objenesis      : "org.objenesis:objenesis:${objenesisVersion}",
+            spek           : "org.jetbrains.spek:spek-api:${spekVersion}",
+            spekJunitEngine: "org.jetbrains.spek:spek-junit-platform-engine:${spekVersion}",
+            spekJunitRunner: "org.junit.platform:junit-platform-runner:${spekJunitRunnerVersion}"
+    ]
+
+    developmentDependencies = [
+            leakCanaryNoOp: "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
+            leakCanary    : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+    ]
+}

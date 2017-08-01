@@ -1,0 +1,35 @@
+apply from: 'buildsystem/dependencies.gradle'
+apply from: 'buildsystem/build.params.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    ext {
+        androidApplicationId = 'com.base.project'
+        androidVersionCode = 1
+        androidVersionName = "0.0.1"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.base.project.test'
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == "lint") {
+        task.enabled = false
+    }
+}
+
+task wrapper(type: Wrapper) {
+    description 'Creates the gradle wrapper.'
+    gradleVersion '3.3'
+}

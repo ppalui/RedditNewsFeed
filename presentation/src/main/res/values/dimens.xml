@@ -1,0 +1,22 @@
+<resources>
+    <!-- Spacing constants (for margins and paddings) -->
+    <dimen name="spacing_none">0dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_large">32dp</dimen>
+    <dimen name="spacing_huge">64dp</dimen>
+
+    <!-- Grid spacing -->
+    <dimen name="grid_spacing_nano">2dp</dimen>
+    <dimen name="grid_spacing_tiny">4dp</dimen>
+
+    <!-- Font sizes -->
+    <dimen name="text_size_tiny">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+
+    <!--Action Bar-->
+    <dimen name="action_bar_height">56dp</dimen>
+</resources>

@@ -1,0 +1,118 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    defaultPublishConfig "debug"
+
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+    }
+
+    publishNonDefault true
+    productFlavors {
+        dev {
+            buildConfigField "String", "BASE_PIXABAY_URL", globalConfiguration.devConfig.pixabay
+            buildConfigField "String", "PIXABAY_API_KEY", globalConfiguration.devConfig.apiKey
+            buildConfigField "String", "BASE_REDDIT_URL", globalConfiguration.devConfig.reddit
+            buildConfigField "String", "SHARE_FB_URL", globalConfiguration.devConfig.fbShare
+        }
+
+        prod {
+            buildConfigField "String", "BASE_PIXABAY_URL", globalConfiguration.prodConfig.pixabay
+            buildConfigField "String", "PIXABAY_API_KEY", globalConfiguration.prodConfig.apiKey
+        }
+        mock {
+            buildConfigField "String", "BASE_PIXABAY_URL", globalConfiguration.mockConfig.pixabay
+            buildConfigField "String", "PIXABAY_API_KEY", globalConfiguration.mockConfig.apiKey
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        dev.java.srcDirs += 'src/dev/kotlin'
+        prod.java.srcDirs += 'src/prod/kotlin'
+        mock.java.srcDirs += 'src/mock/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    android.variantFilter { variant ->
+        if(variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true);
+        }
+    }
+}
+
+dependencies {
+    def dataDependencies = rootProject.ext.dataDependencies
+    def testDependencies = rootProject.ext.dataTestDependencies
+
+    compile project(':navik.data')
+    compile project(':domain')
+    compile project(':libs-rxpaper2')
+
+    provided dataDependencies.javaxAnnotation
+
+    compile dataDependencies.kotlin
+    compile dataDependencies.javaxInject
+    compile dataDependencies.androidAnnotations
+    compile dataDependencies.rxJava
+    compile dataDependencies.rxAndroid
+    compile dataDependencies.retrofit
+    compile dataDependencies.retroGsonConverter
+    compile dataDependencies.retroRxAdapter
+    compile dataDependencies.okhttp3
+    compile dataDependencies.okhttp3Logging
+    compile dataDependencies.timber
+    compile dataDependencies.paperDb
+    compile dataDependencies.objenesis
+
+    testCompile testDependencies.kotlin
+    testCompile testDependencies.junit
+    testCompile testDependencies.kotlinJunit
+    testCompile testDependencies.assertj
+    testCompile testDependencies.mockito
+    testCompile testDependencies.robolectric
+    testCompile testDependencies.objenesis
+    testCompile testDependencies.spek
+    testCompile testDependencies.spekJunitEngine
+    testCompile testDependencies.spekJunitRunner
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath rootProject.ext.classPathDependencies.kotlin
+    }
+}

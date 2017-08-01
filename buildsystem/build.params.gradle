@@ -1,0 +1,24 @@
+ext {
+    devConfig = [
+            pixabay: "\"https://pixabay.com/\"",
+            apiKey : "\"2116954-2d16637df334cb4819df7cbf7\"",
+            reddit : "\"https://www.reddit.com\"",
+            fbShare : "\"https://www.facebook.com/sharer/sharer.php?u=\""
+    ]
+
+    prodConfig = [
+            pixabay: "\"https://pixabay.com/\"",
+            apiKey : "\"2116954-2d16637df334cb4819df7cbf7\""
+    ]
+
+    mockConfig = [
+            pixabay: "\"https://pixabay.com/\"",
+            apiKey : "\"2116954-2d16637df334cb4819df7cbf7\""
+    ]
+
+    compileConfig = [
+            dev : 'devDebug',
+            prod: 'prodRelease',
+            mock: 'mockDebug'
+    ]
+}

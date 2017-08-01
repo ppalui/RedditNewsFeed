@@ -1,0 +1,154 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        applicationId globalConfiguration["androidApplicationId"]
+
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    buildTypes {
+        debug {
+            //TODO
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles fileTree('../buildsystem/proguard').asList().toArray()
+        }
+    }
+
+    productFlavors {
+        dev {
+            buildConfigField "String", "BASE_REDDIT_URL", globalConfiguration.devConfig.reddit
+            buildConfigField "String", "SHARE_FB_URL", globalConfiguration.devConfig.fbShare
+        }
+        prod {
+            //TODO
+        }
+        mock {
+            //TODO
+        }
+    }
+
+    //Kotlin
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    android.variantFilter { variant ->
+        if(variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true);
+        }
+    }
+}
+
+dependencies {
+    def globalExtension = rootProject.ext
+    def presentationDependencies = globalExtension.presentationDependencies
+    def presentationTestDependencies = globalExtension.presentationTestDependencies
+    def developmentDependencies = globalExtension.developmentDependencies
+
+    devCompile project(path: ':data', configuration: globalExtension.compileConfig.dev)
+    prodCompile project(path: ':data', configuration: globalExtension.compileConfig.prod)
+    mockCompile project(path: ':data', configuration: globalExtension.compileConfig.mock)
+
+    compile project(':navik.presentation')
+    compile project(':domain')
+    compile project(':libs-multiplestate-adapter')
+
+    provided presentationDependencies.javaxAnnotation
+
+    compile presentationDependencies.kotlin
+    kapt presentationDependencies.daggerCompiler
+    compile presentationDependencies.dagger
+
+    compile presentationDependencies.rxJava
+    compile presentationDependencies.rxAndroid
+
+    compile presentationDependencies.v4
+    compile presentationDependencies.appcompat
+    compile presentationDependencies.design
+    compile presentationDependencies.recyclerView
+
+    compile presentationDependencies.fonts
+    compile presentationDependencies.glide
+    compile presentationDependencies.timber
+    compile presentationDependencies.epoxy
+    kapt presentationDependencies.epoxyAnnotation
+
+    androidTestCompile presentationTestDependencies.kotlin
+    androidTestCompile presentationTestDependencies.mockito
+    androidTestCompile presentationTestDependencies.dexmaker
+    androidTestCompile presentationTestDependencies.dexmakerDx
+    androidTestCompile presentationTestDependencies.dexmakerMockito
+    androidTestCompile (presentationTestDependencies.espresso) {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile presentationTestDependencies.testingSupportLib
+
+    testCompile presentationTestDependencies.kotlin
+    testCompile presentationTestDependencies.junit
+    testCompile presentationTestDependencies.kotlinJunit
+    testCompile presentationTestDependencies.assertj
+    testCompile presentationTestDependencies.mockito
+    testCompile presentationTestDependencies.spek
+    testCompile presentationTestDependencies.spekJunitEngine
+    testCompile presentationTestDependencies.spekJunitRunner
+
+    //Development
+    releaseCompile developmentDependencies.leakCanaryNoOp
+    debugCompile developmentDependencies.leakCanary
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath rootProject.ext.classPathDependencies.kotlin
+    }
+}

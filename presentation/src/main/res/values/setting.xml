@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fonts_default" translatable="false">fonts/Default-Regular.ttf</string>
+    <string name="fonts_default_bold" translatable="false">fonts/Default-Bold.ttf</string>
+</resources>

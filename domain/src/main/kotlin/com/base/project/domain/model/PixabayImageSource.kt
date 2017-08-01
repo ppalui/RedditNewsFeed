@@ -1,0 +1,22 @@
+package com.base.project.domain.model
+
+data class PixabayImageSource(val previewURL: String,
+							  val previewHeight: Int? = null,
+							  val likes: Int? = null,
+							  val favorites: Int? = null,
+							  val tags: String? = null,
+							  val webformatHeight: Int? = null,
+							  val views: Int? = null,
+							  val webformatWidth: Int? = null,
+							  val previewWidth: Int? = null,
+							  val comments: Int? = null,
+							  val downloads: Int? = null,
+							  val pageURL: String? = null,
+							  val webformatURL: String? = null,
+							  val imageWidth: Int? = null,
+							  val userId: Int? = null,
+							  val user: String? = null,
+							  val type: String? = null,
+							  val id: Int? = null,
+							  val userImageURL: String? = null,
+							  val imageHeight: Int? = null)

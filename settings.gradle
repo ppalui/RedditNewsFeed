@@ -1,0 +1,10 @@
+include ':presentation',
+        ':data',
+        ':domain'
+
+include ':navik.data',
+        ':navik.domain',
+        ':navik.presentation'
+
+include ':libs-rxpaper2',
+        ':libs-multiplestate-adapter'

@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+apply plugin: "kotlin-android"
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    //Kotlin
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+dependencies {
+    def domainDependencies = rootProject.ext.domainDependencies
+    def domainTestDependencies = rootProject.ext.domainTestDependencies
+
+    provided domainDependencies.javaxAnnotation
+
+    compile project(':navik.domain')
+
+    compile domainDependencies.kotlin
+    compile domainDependencies.javaxInject
+    compile domainDependencies.rxJava
+
+    testCompile domainTestDependencies.kotlin
+    testCompile domainTestDependencies.junit
+    testCompile domainTestDependencies.kotlinJunit
+    testCompile domainTestDependencies.mockito
+    testCompile domainTestDependencies.spek
+    testCompile domainTestDependencies.spekJunitEngine
+    testCompile domainTestDependencies.spekJunitRunner
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath rootProject.ext.classPathDependencies.kotlin
+    }
+}
